@@ -19,3 +19,21 @@ Submit a link to your git repository to [this form](https://airtable.com/shrqdIz
 
 ## Installing Additional Packages
 To install additional packages run `pipenv install <package_name>` within the cloned repository.
+
+Applicant-defined Features:
+<ul>
+    <li>
+        Routes now have HTTP codes and messages.
+    </li>
+    <li>
+        Users have a list of favorite clubs.
+    </li>
+    <li>
+        Users can now un-favorite clubs.
+    </li>
+    <li>
+        /api/clubs/similar is a route that takes a mandatory club_name: string and an optional n: int in the form data.
+        It returns a list of similar clubs to the one specified by club_name. This similarity is currently defined by shared tags,
+        but in the future it could have other metrics like shared favorites among users.
+    </li>
+</ul>

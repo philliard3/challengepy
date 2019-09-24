@@ -14,6 +14,7 @@ def get_user(username):
     potential_users = [user for user in db["users"] if user.username == username]
     if len(potential_users) > 0:
         return potential_users[0].get_safe_data()
+    return "User does not exist"
 
 
 def favorite(username, club_name):
@@ -34,6 +35,8 @@ def unfavorite(username, club_name):
     potential_users = [user for user in db["users"] if user.username == username]
     if len(potential_users) > 0:
         potential_users[0].favorites = [club for club in potential_users[0].favorites if club_name != club]
+        return "success"
+    return "User does not exist"
 
 
 def get_clubs():
@@ -60,6 +63,25 @@ def create_one_club(club_dict):
             return "success"
         return "There is already a club with that name."
     return "Insufficient data to create a club. Both a name and description are required."
+
+
+def get_similar_club(club_name, n):
+    matching_clubs = [club for club in db["clubs"] if club.name == club_name]
+    if len(matching_clubs) > 0:
+        similar = []
+        for club in db["clubs"]:
+            shared_tags = list(set(club.tags).intersection(matching_clubs[0].tags))
+            if len(shared_tags) > 0:
+                data = club.get_safe_data()
+                data["reason"] = {
+                    "shared_tags": shared_tags
+                }
+                similar.append(data)
+            # other criteria like shared favorites may go here
+
+        return similar[:n]
+
+    return "club does not exist"
 
 
 def get_initial_users():
